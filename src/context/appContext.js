@@ -1,13 +1,19 @@
 import React, { useReducer, useContext } from "react";
 import reducer from "./reducer";
 import axios from "axios";
-import { CLEAR_ALERT, DISPLAY_ALERT } from "./actions";
+import {
+  CLEAR_ALERT,
+  DISPLAY_ALERT,
+  TOGGLE_SIDEBAR,
+  LOGOUT_USER,
+} from "./actions";
 
 const initialState = {
   isLoading: false,
   showAlert: false,
   alertType: "",
   alertText: "",
+  showSidebar: false,
 };
 
 const AppContext = React.createContext();
@@ -23,6 +29,12 @@ const AppProvider = ({ children }) => {
       dispatch({ type: CLEAR_ALERT });
     }, 3000);
   };
+    const toggleSidebar = () => {
+      dispatch({ type: TOGGLE_SIDEBAR });
+    };
+    const logoutUser = () => {
+      dispatch({ type: LOGOUT_USER });
+    };
 
   return (
     <AppContext.Provider
@@ -30,6 +42,8 @@ const AppProvider = ({ children }) => {
         ...state,
         displayAlert,
         clearAlert,
+        toggleSidebar,
+        logoutUser,
       }}
     >
       {children}
