@@ -5,7 +5,7 @@ import Logo from "./Logo";
 import Wrapper from "../assets/wrappers/Navbar";
 
 const Navbar = () => {
-  const {  toggleSidebar, logoutUser } = useAppContext();
+  const { user, toggleSidebar, logoutUser } = useAppContext();
   const [showLogout, setShowLogout] = useState(false);
   return (
     <Wrapper>
@@ -24,7 +24,7 @@ const Navbar = () => {
             onClick={() => setShowLogout(!showLogout)}
           >
             <FaUserCircle />
-            Hassan
+            {user && user.firstName}
             <FaCaretDown />
           </button>
           <div className={showLogout ? "dropdown show-dropdown" : "dropdown"}>
