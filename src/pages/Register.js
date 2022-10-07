@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Logo, FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useAppContext } from "../context/appContext";
 
 const initialState = {
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "",
   password: "",
   isMember: true,
 };
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const {  isLoading, showAlert, displayAlert } = useAppContext();
+  const { user, isLoading, showAlert, displayAlert, setupUser } =
+    useAppContext();
+  const navigate = useNavigate();
+
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
@@ -21,12 +27,34 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const { name, email, password, isMember } = values;
-    if (!email || !password || (!isMember && !name)) {
+    const { firstName, lastName, email, password, isMember } = values;
+
+    if (!email || !password || (!isMember && !firstName && !lastName)) {
       displayAlert();
       return;
     }
+    const currentUser = { firstName, lastName, email, password };
+    if (isMember) {
+      setupUser({
+        currentUser,
+        endPoint: "login",
+        alertText: "Login Successful! Redirecting... ",
+      });
+    } else {
+      setupUser({
+        currentUser,
+        endPoint: "register",
+        alertText: "User Created! Redirecting... ",
+      });
+    }
   };
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 3000);
+    }
+  }, [user, navigate]);
   return (
     <Wrapper className='full-page'>
       <form className='form' onSubmit={onSubmit}>
@@ -35,12 +63,22 @@ const Register = () => {
         {showAlert && <Alert />}
         {/* name input */}
         {!values.isMember && (
-          <FormRow
-            type='text'
-            name='name'
-            value={values.name}
-            handleChange={handleChange}
-          />
+          <>
+            <FormRow
+              type='text'
+              name='firstName'
+              labelText='First Name'
+              value={values.firstName}
+              handleChange={handleChange}
+            />
+            <FormRow
+              type='text'
+              name='lastName'
+              labelText='Last Name'
+              value={values.lastName}
+              handleChange={handleChange}
+            />
+          </>
         )}
         {/* email input */}
         <FormRow
