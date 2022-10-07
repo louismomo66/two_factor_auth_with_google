@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Landing, Register, Error } from "./pages";
+import { Landing, Register, Error,ProtectedRoute } from "./pages";
 import {
   Home,
   Account,
@@ -14,7 +14,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/dashboard' element={<SharedLayout />}>
+        <Route
+          path='/dashboard'
+          element={
+            <ProtectedRoute>
+              <SharedLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index path='home' element={<Home />} />
           <Route path='account' element={<Account />} />
           <Route path='labs' element={<Labs />} />
