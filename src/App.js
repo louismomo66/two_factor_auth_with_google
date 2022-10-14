@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Landing, Register, Error,ProtectedRoute,Login } from "./pages";
 import {
   Home,
-  Account,
+  Profile,
   Labs,
   Reports,
   SharedLayout,
@@ -23,7 +23,7 @@ function App() {
           }
         >
           <Route index path='home' element={<Home />} />
-          <Route path='account' element={<Account />} />
+          <Route path='profile' element={<Profile />} />
           <Route path='labs' element={<Labs />} />
           <Route path='reports' element={<Reports />} />
           <Route path='tests' element={<Tests />} />

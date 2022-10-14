@@ -40,8 +40,8 @@ const links = [
   },
   {
     id: 6,
-    text: "account",
-    path: "/dashboard/account",
+    text: "profile",
+    path: "/dashboard/profile",
     icon: <BsPersonCheckFill />,
   },
 ];
