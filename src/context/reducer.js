@@ -8,7 +8,10 @@ import {
   REGISTER_USER_ERROR,
   LOGIN_USER_BEGIN,
   LOGIN_USER_SUCCESS,
-  LOGIN_USER_ERROR,  
+  LOGIN_USER_ERROR,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 const reducer = (state, action) => {
@@ -81,33 +84,39 @@ const reducer = (state, action) => {
        alertText: 'Enter valid credentials!',
      };
    }
-  // setup user
-  // if (action.type === SETUP_USER_BEGIN) {
-  //   return {
-  //     ...state,
-  //     isLoading: true,
-  //   };
-  // }
-  // if (action.type === SETUP_USER_SUCCESS) {
-  //   return {
-  //     ...state,
-  //     isLoading: false,
-  //     user: action.payload.user,
-  //     token: action.payload.token,
-  //     showAlert: true,
-  //     alertType: "success",
-  //     alertText: action.payload.alertText,
-  //   };
-  // }
-  // if (action.type === SETUP_USER_ERROR) {
-  //   return {
-  //     ...state,
-  //     isLoading: false,
-  //     showAlert: true,
-  //     alertType: "danger",
-  //     alertText: "Provide correct credentials!",
-  //   };
-  // }
+  // update user
+   if (action.type === UPDATE_USER_BEGIN) {
+     return {
+       ...state,
+       isLoading: true,
+     };
+   }
+   if (action.type === UPDATE_USER_SUCCESS) {
+     return {
+       ...state,
+       isLoading: false,
+       token: action.payload.token,
+       user: action.payload.user,
+       phone: action.payload.phone,
+       country: action.payload.country,
+       city: action.payload.city,
+       street: action.payload.street,
+       showAlert: true,
+       alertType: "success",
+       alertText: "User Profile Updated",
+     };
+   }
+   if (action.type === UPDATE_USER_ERROR) {
+     return {
+       ...state,
+       isLoading: false,
+       showAlert: true,
+       alertType: "danger",
+       alertText: action.payload.msg,
+     };
+   }
+
+  
   //toggle sidebar
   if (action.type === TOGGLE_SIDEBAR) {
     return {
