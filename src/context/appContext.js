@@ -16,6 +16,7 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  HANDLE_CHANGE,
 } from "./actions";
 
 const token = localStorage.getItem("token");
@@ -33,6 +34,8 @@ const initialState = {
   country:'',
   city:'',
   street:'',
+  institution:'',
+  institutionOptions:[],
 };
 
 const AppContext = React.createContext();
@@ -108,6 +111,15 @@ const AppProvider = ({ children }) => {
     }
     clearAlert();
   };
+  //getPartners
+  // const getPartners = async ()=> {
+  //   const { data } = await axios.get("http://localhost:3003/api/v1/partners", {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  //   return data
+  // }
 
   const loginUser = async (currentUser) => {
     dispatch({ type: LOGIN_USER_BEGIN });
@@ -140,12 +152,14 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
+ 
+
   //update user
   const updateUser = async (currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
     try {
-      const { data } = await authFetch.patch(`/updateuser`, currentUser);
-      // console.log(data);
+      const { data } = await authFetch.patch(`/updateuser`, currentUser);      
+      
       const { user,phone,country,city,street, token } = data;
       // console.log(token);
       dispatch({
@@ -162,9 +176,16 @@ const AppProvider = ({ children }) => {
       }
     }
     clearAlert();
-  console.log(currentUser);
+  
 
   };
+  // handle change
+   const handleChange = ({ name, value }) => {
+     dispatch({
+       type: HANDLE_CHANGE,
+       payload: { name, value },
+     });
+   };
   return (
     <AppContext.Provider
       value={{
@@ -176,6 +197,8 @@ const AppProvider = ({ children }) => {
         updateUser,
         toggleSidebar,
         logoutUser,
+        handleChange,
+        
       }}
     >
       {children}
