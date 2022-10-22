@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Landing, Register, Error,ProtectedRoute,Login } from "./pages";
+import { Landing, Register, Error,ProtectedRoute,Login,Trial } from "./pages";
 import {
   Home,
   Profile,
@@ -33,6 +33,7 @@ function App() {
         <Route path='/' element={<Landing />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/trial' element={<Trial />} />
 
         <Route path='*' element={<Error />} />
       </Routes>
