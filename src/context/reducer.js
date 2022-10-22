@@ -13,6 +13,9 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
+  // SCHEDULE_LAB_BEGIN,
+  // SCHEDULE_LAB_SUCCESS,
+  // SCHEDULE_LAB_ERROR,
 } from "./actions";
 import { initialState } from "./appContext";
 const reducer = (state, action) => {
@@ -70,6 +73,7 @@ const reducer = (state, action) => {
       ...state,
       isLoading: false,
       token: action.payload.token,
+      tokenExpiry: action.payload.tokenExpiry,
       user: action.payload.user,
       showAlert: true,
       alertType: "success",
@@ -130,6 +134,7 @@ const reducer = (state, action) => {
       ...initialState,
       user: null,
       token: null,
+      tokenExpiry: null,
     };
   }
   // handle change
@@ -139,6 +144,33 @@ const reducer = (state, action) => {
       [action.payload.name]: action.payload.value,
     };
   }
+
+  // schedule lab
+
+  // if (action.type === SCHEDULE_LAB_BEGIN) {
+  //   return {
+  //     ...state,
+  //     isLoading: true,
+  //   };
+  // }
+  // if (action.type === SCHEDULE_LAB_SUCCESS) {
+  //   return {
+  //     ...state,
+  //     isLoading: false,
+  //     showAlert: true,
+  //     alertType: "success",
+  //     alertText: "New Lab Scheduled ",
+  //   };
+  // }
+  // if (action.type === SCHEDULE_LAB_ERROR) {
+  //   return {
+  //     ...state,
+  //     isLoading: false,
+  //     showAlert: true,
+  //     alertType: "danger",
+  //     alertText: action.payload.msg,
+  //   };
+  // }
 
   throw new Error(`no such action: ${action.type}`);
 };

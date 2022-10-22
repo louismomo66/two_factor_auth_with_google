@@ -17,9 +17,13 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
+  // SCHEDULE_LAB_BEGIN,
+  // SCHEDULE_LAB_SUCCESS,
+  // SCHEDULE_LAB_ERROR,
 } from "./actions";
 
 const token = localStorage.getItem("token");
+const tokenExpiry = localStorage.getItem("tokenExpiry");
 const user = localStorage.getItem("user");
 
 const initialState = {
@@ -30,12 +34,20 @@ const initialState = {
   showSidebar: false,
   user: user ? JSON.parse(user) : null,
   token: token,
-  phone:'',
-  country:'',
-  city:'',
-  street:'',
-  institution:'',
-  institutionOptions:[],
+  tokenExpiry: parseInt(tokenExpiry),
+  phone: "",
+  country: "",
+  city: "",
+  street: "",
+  institution: "",
+  institutionOptions: [],
+  // LabScheduleOptions: ["Pending", "Completed", "Missed", "Canceled"],
+  // LabSchedule: "Pending",
+  // startTime: "",
+  // endTime: "",
+  // LabName: "",
+  // LabCode: "",
+  // description: "",
 };
 
 const AppContext = React.createContext();
@@ -79,13 +91,15 @@ const AppProvider = ({ children }) => {
       dispatch({ type: CLEAR_ALERT });
     }, 3000);
   };
-  const addUserToLocalStorage = ({ user, token }) => {
+  const addUserToLocalStorage = ({ user, token, tokenExpiry }) => {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
+    localStorage.setItem("tokenExpiry", tokenExpiry);
   };
   const removeUserFromLocalStorage = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("tokenExpiry");
   };
 
   const registerUser = async (currentUser) => {
@@ -100,8 +114,6 @@ const AppProvider = ({ children }) => {
           user,
         },
       });
-
-      
     } catch (error) {
       console.log(error.response);
       dispatch({
@@ -111,16 +123,7 @@ const AppProvider = ({ children }) => {
     }
     clearAlert();
   };
-  //getPartners
-  // const getPartners = async ()=> {
-  //   const { data } = await axios.get("http://localhost:3003/api/v1/partners", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  //   return data
-  // }
-
+  
   const loginUser = async (currentUser) => {
     dispatch({ type: LOGIN_USER_BEGIN });
     try {
@@ -128,13 +131,14 @@ const AppProvider = ({ children }) => {
       const response = await axios.post(`${base_url}/login`, currentUser);
       console.log(response);
 
-      const { user, token } = response.data;
+      const { user, token, tokenExpiry } = response.data;
+      console.log(tokenExpiry);
       dispatch({
         type: LOGIN_USER_SUCCESS,
-        payload: { user, token },
+        payload: { user, token, tokenExpiry },
       });
 
-      addUserToLocalStorage({ user, token });
+      addUserToLocalStorage({ user, token, tokenExpiry });
     } catch (error) {
       dispatch({
         type: LOGIN_USER_ERROR,
@@ -152,19 +156,17 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
- 
-
   //update user
   const updateUser = async (currentUser) => {
     dispatch({ type: UPDATE_USER_BEGIN });
     try {
-      const { data } = await authFetch.patch(`/updateuser`, currentUser);      
-      
-      const { user,phone,country,city,street, token } = data;
+      const { data } = await authFetch.patch(`/updateuser`, currentUser);
+
+      const { user, phone, country, city, street, token } = data;
       // console.log(token);
       dispatch({
         type: UPDATE_USER_SUCCESS,
-        payload: { user, phone,country,city,street, token },
+        payload: { user, phone, country, city, street, token },
       });
       addUserToLocalStorage({ user, token });
     } catch (error) {
@@ -176,16 +178,38 @@ const AppProvider = ({ children }) => {
       }
     }
     clearAlert();
-  
-
   };
   // handle change
-   const handleChange = ({ name, value }) => {
-     dispatch({
-       type: HANDLE_CHANGE,
-       payload: { name, value },
-     });
-   };
+  const handleChange = ({ name, value }) => {
+    dispatch({
+      type: HANDLE_CHANGE,
+      payload: { name, value },
+    });
+  };
+  //  schedule Lab
+  // const scheduleLab = async () => {
+  //   dispatch({ type: SCHEDULE_LAB_BEGIN });
+  //   try {
+  //     const { startTime, endTime, labSchedule, LabName, labCode, description } =
+  //       state;
+  //     await authFetch.post("/schedules", {
+  //       startTime,
+  //       endTime,
+  //       labSchedule,
+  //       LabName,
+  //       labCode,
+  //       description,
+  //     });
+  //     dispatch({ type: SCHEDULE_LAB_SUCCESS });
+  //   } catch (error) {
+  //     if (error.response.status === 401) return;
+  //     dispatch({
+  //       type: SCHEDULE_LAB_ERROR,
+  //       payload: { msg: error.response.data.msg },
+  //     });
+      
+  //   }
+  // };
   return (
     <AppContext.Provider
       value={{
@@ -198,7 +222,7 @@ const AppProvider = ({ children }) => {
         toggleSidebar,
         logoutUser,
         handleChange,
-        
+        // scheduleLab,
       }}
     >
       {children}
