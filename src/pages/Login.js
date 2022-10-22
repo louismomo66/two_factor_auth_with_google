@@ -11,7 +11,7 @@ const initialState = {
 };
 const Login = () => {
   const [values, setValues] = useState(initialState);
-  const { user,token, showAlert, displayAlert, loginUser } = useAppContext();
+  const { user,token,tokenExpiry, showAlert, displayAlert, loginUser,logoutUser } = useAppContext();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -30,12 +30,18 @@ const Login = () => {
     loginUser(currentUser)
   };
   useEffect(() => {
+    if(tokenExpiry < Date.now()) {
+      logoutUser()
+      // navigate('/register')
+      
+    }
+    console.log(tokenExpiry,Date.now());
     if (user && token) {
       setTimeout(() => {
         navigate("/dashboard");
       }, 3000);
     }
-  }, [user, token,navigate]);
+  }, [user, token,navigate,tokenExpiry]);
   return (
     <Wrapper className='full-page'>
       <form className='form' onSubmit={onSubmit}>

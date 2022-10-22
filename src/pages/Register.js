@@ -13,7 +13,7 @@ const initialState = {
 };
 const Register = () => {
   const [values, setValues] = useState(initialState);
-  const { user, showAlert, displayAlert, registerUser } = useAppContext();
+  const { user, showAlert, displayAlert, registerUser,tokenExpiry } = useAppContext();
   const navigate = useNavigate();
 
   

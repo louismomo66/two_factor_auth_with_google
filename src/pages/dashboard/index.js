@@ -5,5 +5,5 @@ import Labs from "./Labs";
 import Reports from "./Reports";
 import Schedules from './Schedules'
 import Tests from './Tests'
-
+import RequestLab from './RequestLab'
 export { Home, Profile, Labs, Reports, SharedLayout,Schedules,Tests };
