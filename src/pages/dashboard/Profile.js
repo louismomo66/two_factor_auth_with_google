@@ -26,7 +26,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3003/api/v1/partners", {
+      .get("/api/v1/partners", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -57,7 +57,7 @@ const AppProvider = ({ children }) => {
 
   // axios
   const authFetch = axios.create({
-    baseURL: "http://localhost:3003/api/v1/auth",
+    baseURL: "/api/v1/auth",
   });
   //request
   authFetch.interceptors.request.use(
@@ -105,7 +105,7 @@ const AppProvider = ({ children }) => {
   const registerUser = async (currentUser) => {
     dispatch({ type: REGISTER_USER_BEGIN });
     try {
-      const base_url = "http://localhost:3003/api/v1/auth";
+      const base_url = "/api/v1/auth";
       const response = await axios.post(`${base_url}/register`, currentUser);
       const { user } = response.data;
       dispatch({
@@ -127,7 +127,7 @@ const AppProvider = ({ children }) => {
   const loginUser = async (currentUser) => {
     dispatch({ type: LOGIN_USER_BEGIN });
     try {
-      const base_url = "http://localhost:3003/api/v1/auth";
+      const base_url = "/api/v1/auth";
       const response = await axios.post(`${base_url}/login`, currentUser);
       console.log(response);
 
@@ -232,4 +232,4 @@ const AppProvider = ({ children }) => {
 const useAppContext = () => {
   return useContext(AppContext);
 };
-export { AppProvider, initialState, useAppContext };
+export { AppProvider, initialState, useAppContext, AppContext };

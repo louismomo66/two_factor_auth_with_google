@@ -2,21 +2,17 @@ import React from "react";
 
 import {
   ScheduleComponent,
-  Day,
   Week,
-  WorkWeek,
-  Month,
-  Agenda,
   Inject,
-  EventSettingsModel,
+  ViewsDirective, ViewDirective
 } from "@syncfusion/ej2-react-schedule";
 // import { DataManager, ODataV4Adaptor } from "@syncfusion/ej2-data";
 import { DataManager, WebApiAdaptor } from "@syncfusion/ej2-data";
-import labData from "../utils/labData";
+// import labData from "../utils/labData";
 import "../assets/scheduler.css";
 
 class Scheduler2 extends React.Component {
-  localData: EventSettingsModel = {
+  localData = {
     dataSource: [
       {
         Id: 1,
@@ -74,14 +70,29 @@ class Scheduler2 extends React.Component {
     crossDomain: true,
   });
 
+  onActionBegin(args) {
+    console.log('Event args:', args)
+    if (args.requestType === 'eventCreate' && args.data.length > 0) {
+      let eventData = args.data[0];
+      let eventField = this.scheduleObj.eventFields;
+      let startDate = eventData[eventField.startTime];
+      let endDate = eventData[eventField.endTime];
+      console.log("Start:", startDate, "End:", endDate)
+      args.cancel = !this.scheduleObj.isSlotAvailable(startDate, endDate);
+    }
+  }
+
   render() {
+    var date = new Date()
+    var yesterday = new Date(date.getTime());
+    yesterday.setDate(date.getDate() - 1);
     return (
-      <ScheduleComponent
-        currentView='Month'
-        eventSettings={this.localData}
-        // eventSettings={{ dataSource: this.remoteData }}
-      >
-        <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
+      <ScheduleComponent currentView='Week' eventSettings={this.localData} minDate={yesterday} allowMultiCellSelection={false}
+        actionBegin={this.onActionBegin.bind(this)}  >
+        <ViewsDirective>
+          <ViewDirective option='Week' />
+        </ViewsDirective>
+        <Inject services={[ Week]} />
       </ScheduleComponent>
     );
   }
