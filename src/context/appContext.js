@@ -132,7 +132,7 @@ const AppProvider = ({ children }) => {
       console.log(response);
 
       const { user, token, tokenExpiry } = response.data;
-      console.log(tokenExpiry);
+      // console.log("tokenExpiryAppCon: ", tokenExpiry);
       dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: { user, token, tokenExpiry },

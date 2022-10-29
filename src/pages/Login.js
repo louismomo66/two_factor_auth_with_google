@@ -35,7 +35,8 @@ const Login = () => {
       // navigate('/register')
       
     }
-    console.log(tokenExpiry,Date.now());
+    console.log("tokenExpiryLogin: ", tokenExpiry);
+    console.log("dateNow", Date.now());
     if (user && token) {
       setTimeout(() => {
         navigate("/dashboard");
