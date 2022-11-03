@@ -4,7 +4,7 @@ const labData = [
     Subject: "Half Wave Rectification",
     StartTime: new Date(2022, 10, 15, 9, 30),
     EndTime: new Date(2022, 10, 10, 11, 0),
-    // IsBlock:true,
+    
     IsReadonly: true,
     IsAllDay: true,
   },
@@ -16,7 +16,7 @@ const labData = [
     Description: "electronics na mutima",
     Status: "Completed",
 
-    // IsBlock:true,
+    
     IsReadonly: true,
   },
   {
@@ -33,7 +33,7 @@ const labData = [
     Subject: "Full Wave Rectification",
     StartTime: new Date(2022, 9, 25, 22, 0),
     EndTime: new Date(2022, 9, 25, 23, 30),
-    // IsBlock:true,
+    
     IsReadonly: true,
     // RecurrenceRule: "FREQ=DAILY;INTERVAL=2;COUNT=10",
   },
@@ -42,10 +42,20 @@ const labData = [
     Subject: "Digital electronics",
     StartTime: new Date(2022, 9, 20, 12, 0),
     EndTime: new Date(2022, 9, 20, 15, 30),
-    // IsBlock:true,
+    
     IsReadonly: true,
     RecurrenceRule: "FREQ=DAILY;INTERVAL=3;COUNT=5",
   },
 ];
+let count = 0;
+const startDate = new Date();
+for (let index = 0; index < labData.length; index++) {
+  const element = labData[index];
+  element.IsBlock = true
+  let date = new Date();    
+  date.setDate(startDate.getDate() + count++);
+  element.StartTime = date;
+  element.EndTime = new Date(date.getTime()+ 30*60000)
+}
 
-export default labData
+export default labData;
