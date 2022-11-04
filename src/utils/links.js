@@ -28,6 +28,12 @@ const links = [
     path: "/dashboard/labaccess",
     icon: <BsUnlockFill />,
   },
+   {
+    id: 10,
+    text: "lab accessDynamic",
+    path: "/dashboard/labaccess2",
+    icon: <MdQueryStats />,
+  },
   {
     id: 4,
     text: "schedules",

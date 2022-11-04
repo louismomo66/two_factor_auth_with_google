@@ -9,6 +9,7 @@ import {
   Schedules,
   Tests,
   LabAccess,
+  LabAccess2
 } from "./pages/dashboard";
 
 function App() {
@@ -23,10 +24,11 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route  path='' element={<Home />} />
+          <Route path='' element={<Home />} />
           <Route path='profile' element={<Profile />} />
           <Route path='labs' element={<Labs />} />
           <Route path='labaccess' element={<LabAccess />} />
+          <Route path='labaccess2' element={<LabAccess2 />} />
           <Route path='reports' element={<Reports />} />
           <Route path='tests' element={<Tests />} />
           <Route path='schedules' element={<Schedules />} />

@@ -7,4 +7,5 @@ import Schedules from './Schedules'
 import Tests from './Tests'
 import RequestLab from './RequestLab'
 import LabAccess from "./LabAccess";
-export { Home, Profile, Labs, Reports, SharedLayout,Schedules,Tests,LabAccess };
+import LabAccess2 from './LabAccess2'
+export { Home, Profile, Labs, Reports, SharedLayout,Schedules,Tests,LabAccess,LabAccess2 };

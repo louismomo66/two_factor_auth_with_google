@@ -9,56 +9,50 @@ import moment from "moment";
 
 const LabAccess = () => {
   const { user, token } = useAppContext();
-  const[labName,setLabName]=useState('')
-  const[labCode,setLabCode]=useState('')
+  const [labName, setLabName] = useState("");
+  const [labCode, setLabCode] = useState("");
   const [labStatus, setLabStatus] = useState("");
-  const[startDate,setStartDate]=useState('')
+  const [startDate, setStartDate] = useState("");
   const [stopDate, setStopDate] = useState("");
-  
- const config = {
-   headers: {
-     Authorization: `Bearer ${token}`,
-   },
- };
- const getAccess = async () => {
-   try {
-     const response = await axios.get("/api/v1/client/my-access", config);
-    //  console.log("resp: ", response);
-     console.log("respData: ", response.data);
-     const accessData = response.data
-     accessData.map((LabItem,index)=> {
+  // const [ourLabs, setOurLabs] = useState([]);
 
-      //  const [access]= LabItem
-      console.log("labItem", LabItem);
-       const{lab,status}=LabItem
-       const{name,code,description,startDate,stopDate}=lab
-       setLabName(name)
-       setLabCode(code)
-       setLabStatus(status);
-       setStartDate(moment(startDate).format("MMM Do, YYYY, h:mm a"));
-       setStopDate(moment(stopDate).format("MMM Do, YYYY, h:mm a"));
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const getAccess = async () => {
+    try {
+      const response = await axios.get("/api/v1/client/my-access", config);
+      //  console.log("resp: ", response);
+      console.log("respData: ", response.data);
 
-       
-       
-      console.log("lab:", lab);
-     })
-    //  console.log("access:", access);
-    //  console.log("name:", name);
+      const accessData = response.data;
+      accessData.map((LabItem, index) => {
+        //  const [access]= LabItem
+        console.log("labItem", LabItem);
+        const { lab, status } = LabItem;
+        const { name, code, description, startDate, stopDate } = lab;
+        setLabName(name);
+        setLabCode(code);
+        setLabStatus(status);
+        setStartDate(moment(startDate).format("MMM Do, YYYY, h:mm a"));
+        setStopDate(moment(stopDate).format("MMM Do, YYYY, h:mm a"));
 
-   } catch (error) {
-     console.log("Error:", error.message);
-   }
- };
+        console.log("lab:", lab);
+      });
+      //  console.log("access:", access);
+      //  console.log("name:", name);
+    } catch (error) {
+      console.log("Error:", error.message);
+    }
+  };
   useEffect(() => {
-   
-    getAccess()
-   
+    getAccess();
   }, []);
 
   return (
-    
     <Wrapper>
-      
       <Table bordered hover>
         <thead>
           <tr>
