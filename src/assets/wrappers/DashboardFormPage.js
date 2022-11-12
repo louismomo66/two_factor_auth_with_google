@@ -9,6 +9,18 @@ const Wrapper = styled.section`
   h3 {
     margin-top: 0;
   }
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid var(--primary-100);
+    text-align: left;
+    padding: 8px;
+  }
   .form {
     margin: 0;
     border-radius: 0;
@@ -63,6 +75,6 @@ const Wrapper = styled.section`
       margin-top: 0;
     }
   }
-`
+`;
 
 export default Wrapper
