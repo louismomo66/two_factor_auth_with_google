@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import Table from "react-bootstrap/Table";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import { useAppContext } from "../../context/appContext";
-
+import styled from "styled-components";
 import moment from "moment";
 
 const LabAccess = () => {
@@ -52,59 +52,38 @@ const LabAccess = () => {
   }, []);
 
   return (
-    <Wrapper>
-      <Table bordered hover>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Lab Name</th>
-            <th>Lab Code</th>
-            <th>Start Time</th>
-            <th>End Time </th>
-            <th>Status</th>
-            <th>Schedule</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>{labName}</td>
-            <td>{labCode}</td>
-            <td>{startDate}</td>
-            <td>{stopDate}</td>
-            <td>{labStatus}</td>
-            <td>
-              <button className='btn'>Schedule</button>
-            </td>
-          </tr>
-          {/* <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td></td>
-            <td>@fat</td>
-            <td>
-              <button className='btn'>Schedule</button>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry the Bird</td>
-            <td>@twitter</td>
-            <td>@twitter</td>
-            <td></td>
-            <td>
-              <button className='btn'>Schedule</button>
-            </td>
-          </tr> */}
-        </tbody>
-      </Table>
-      {/* <h2>lab access</h2>
-      <h1>{labName}</h1>
-      <p>{labCode}</p>
-      <p>{startDate}</p>
-      <p>{stopDate}</p> */}
-    </Wrapper>
+    
+      <Wrapper>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Lab Name</th>
+              <th>Lab Code</th>
+              <th>Start Time</th>
+              <th>End Time </th>
+              <th>Status</th>
+              <th>Schedule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>{labName}</td>
+              <td>{labCode}</td>
+              <td>{startDate}</td>
+              <td>{stopDate}</td>
+              <td>{labStatus}</td>
+              <td>
+                <button className='btn'>Schedule</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Wrapper>
+    
   );
 };
+
+
 export default LabAccess;
