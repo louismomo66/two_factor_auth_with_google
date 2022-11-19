@@ -73,6 +73,11 @@ const Login = () => {
           value={values.password}
           handleChange={handleChange}
         />
+        <div className="forgot-password">
+          <p>
+            <Link to="/forgot-password"> Forgot Password?</Link>
+          </p>
+        </div>
         <button type="submit" className="btn btn-block" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>

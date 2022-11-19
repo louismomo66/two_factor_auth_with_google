@@ -328,6 +328,22 @@ input[type="email"]:disabled,
   color: var(--primary-500);
 }
 
+.forgot-password {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: -10px;
+}
+.forgot-password p {
+  padding: 0;
+  margin: 0 !important;
+}
+.forgot-password a {
+  color: var(--primary-500);
+}
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
 @media screen and (min-width: 992px) {
   .coffee-info {
     text-align: left;
