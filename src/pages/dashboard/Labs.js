@@ -1,5 +1,4 @@
 import LabList from "../../components/labs/LabsList";
-import "../../assets/bootstrap.css";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
 const Labs = () => {

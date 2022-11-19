@@ -5,7 +5,7 @@
 }
 
 /* fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Roboto+Condensed:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cabin&family=Roboto+Condensed:wght@400;700&display=swap");
 
 html {
   font-size: 100%;
@@ -44,8 +44,8 @@ html {
   --green-dark: #0f5132;
 
   /* fonts  */
-  --headingFont: 'Roboto Condensed', Sans-Serif;
-  --bodyFont: 'Cabin', Sans-Serif;
+  --headingFont: "Roboto Condensed", Sans-Serif;
+  --bodyFont: "Cabin", Sans-Serif;
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
   /* rest of the vars */
@@ -158,6 +158,13 @@ ul {
   text-transform: capitalize;
   display: inline-block;
 }
+
+button[disabled="disabled"],
+button:disabled,
+.btn:disabled:hover {
+  cursor: not-allowed;
+  background: var(--primary-100);
+}
 .btn:hover {
   background: var(--primary-700);
   box-shadow: var(--shadow-3);
@@ -234,10 +241,21 @@ ul {
   background: var(--backgroundColor);
   border: 1px solid var(--grey-200);
 }
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border: 1px solid var(--primary-500);
+}
 .form-input,
 .form-select,
 .btn-block {
   height: 35px;
+}
+input[type="email"]:disabled,
+.form-input:disabled {
+  pointer-events: none;
+  color: #aaa;
+  background: #f5f5f5;
 }
 .form-row {
   margin-bottom: 1rem;

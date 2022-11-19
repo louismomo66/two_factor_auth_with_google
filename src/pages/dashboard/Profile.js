@@ -1,138 +1,144 @@
-import { useEffect, useState } from "react";
-import { FormRow, Alert, FormRowSelect } from "../../components";
-import { useAppContext } from "../../context/appContext";
+import { useState } from "react";
+import { FormRow, Alert } from "../../components";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import usePartners from "../../utils/hooks/usePartners";
+import { updateUserDetails } from "../../store/actions/authActions";
 
 const Profile = () => {
-  const {
-    user,
-    showAlert,
-    displayAlert,
-    updateUser,
-    isLoading,
-    
-    handleChange,
-    token,
-  } = useAppContext();
-  const [firstName, setFirstName] = useState(user?.firstName);
-  const [lastName, setLastName] = useState(user?.lastName);
-  const [phone, setPhone] = useState(user?.phone);
-  const [country, setCountry] = useState(user?.address.country);
-  const [city, setCity] = useState(user?.address.city);
-  const [street, setStreet] = useState(user?.address.street);
-  const [institutions, setInstitutions] = useState([]);
-  const [partner, setPartner] = useState(user?.partner);
+  const { user } = useSelector((state) => state.auth);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [values, setValues] = useState({
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    phone: user?.phone,
+    country: user?.address?.country,
+    city: user?.address?.city,
+    street: user?.address?.street,
+    partner: user?.partner?.id,
+  });
 
-  useEffect(() => {
-    axios
-      .get("/api/v1/partners", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("response: ", response);
-        return response.data;
-      })
-      .then((data) => {
-        setInstitutions(data);
-      })
-      .catch((err) => console.log("error:", err));
-  }, []);
-  const handleSubmit = (e) => {
+  const { institutions, loading } = usePartners();
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!firstName || !phone || !lastName || !country || !city || !street || !partner) {
-      displayAlert();
+    if (
+      !values.firstName ||
+      !values.phone ||
+      !values.lastName ||
+      !values.country ||
+      !values.city ||
+      !values.street ||
+      !values.partner
+    ) {
+      setError("Please fill all fields!");
       return;
     }
-    const UserObj = {
+    const { firstName, lastName, phone, country, city, street, partner } =
+      values;
+    const userObj = {
       firstName,
       lastName,
       phone,
-      country,
-      city,
-      street,
       partner,
+      address: {
+        country,
+        city,
+        street,
+      },
     };
-    // console.log(`UpdateObjecUuser:`, UserObj);
-    updateUser(UserObj);
+    try {
+      setIsLoading(true);
+      await dispatch(updateUserDetails(userObj, user?.id));
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
-  // console.log(user);
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    handleChange({ name, value });
+  const handleChange = (e) => {
+    setError("");
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   };
 
   return (
     <Wrapper>
-      <form onSubmit={handleSubmit} className='form'>
+      <form onSubmit={handleSubmit} className="form">
         <h3>profile</h3>
-        {showAlert && <Alert />}
-        <div className='form-center'>
+        {error && <Alert alertType="danger" alertText={error} />}
+        <div className="form-center">
           <FormRow
-            type='text'
-            labelText='first name'
-            name='firstName'
-            value={firstName}
-            handleChange={(e) => setFirstName(e.target.value)}
+            type="text"
+            labelText="first name"
+            name="firstName"
+            value={values.firstName}
+            handleChange={handleChange}
           />
           <FormRow
-            type='text'
-            labelText='last name'
-            name='lastName'
-            value={lastName}
-            handleChange={(e) => setLastName(e.target.value)}
+            type="text"
+            labelText="last name"
+            name="lastName"
+            value={values.lastName}
+            handleChange={handleChange}
           />
           <FormRow
-            type='phone'
-            name='phone'
-            value={phone}
-            handleChange={(e) => setPhone(e.target.value)}
+            type="phone"
+            name="phone"
+            value={values.phone}
+            handleChange={handleChange}
           />
           <FormRow
-            type='text'
-            name='country'
-            value={country}
-            handleChange={(e) => setCountry(e.target.value)}
+            type="text"
+            name="country"
+            value={values.country}
+            handleChange={handleChange}
           />
           <FormRow
-            type='text'
-            name='city'
-            value={city}
-            handleChange={(e) => setCity(e.target.value)}
+            type="text"
+            name="city"
+            value={values.city}
+            handleChange={handleChange}
           />
           <FormRow
-            type='text'
-            name='street'
-            value={street}
-            handleChange={(e) => setStreet(e.target.value)}
+            type="text"
+            name="street"
+            value={values.street}
+            handleChange={handleChange}
           />
-          {/* <FormRowSelect
-            name='institution'
-            value={institution}
-            handleChange={handleInput}
-            list={institutions}
-          /> */}
-          <select
-            name='institution'
-            onChange={(e) => setPartner(e.target.value)}
-            value={partner}
-            className='form-select'
-          >
-            <option value="">--select--</option>
-            {institutions.map((itemValue, index) => {
-              return (
-                <option key={index} value={itemValue.id}>
-                  {itemValue.name}
-                </option>
-              );
-            })}
-          </select>
-          <button type='submit' className='btn btn-block' disabled={isLoading}>
-            {isLoading ? "Please wait..." : "Save Changes"}
+          <div className="form-row">
+            <label htmlFor="partner" className="form-label">
+              Institution
+            </label>
+            <select
+              name="partner"
+              onChange={handleChange}
+              value={values.partner}
+              className="form-select"
+            >
+              <option value="">--select--</option>
+              {loading
+                ? "Loading Institutions"
+                : institutions?.map((itemValue, index) => {
+                    return (
+                      <option key={index} value={itemValue.id}>
+                        {itemValue.name}
+                      </option>
+                    );
+                  })}
+            </select>
+          </div>
+
+          <FormRow
+            type="email"
+            name="email"
+            value={user?.email}
+            disabled={true}
+          />
+          <button type="submit" className="btn btn-block" disabled={isLoading}>
+            {isLoading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>

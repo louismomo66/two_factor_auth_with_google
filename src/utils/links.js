@@ -1,19 +1,20 @@
-import { IoBarChartSharp } from "react-icons/io5";
+// import { IoBarChartSharp } from "react-icons/io5";
 import { MdQueryStats } from "react-icons/md";
-import { FaWpforms } from "react-icons/fa";
+// import { FaWpforms } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
-import {FaHome} from 'react-icons/fa'
-import {MdComputer} from 'react-icons/md'
-import {BsCalendarDayFill} from 'react-icons/bs'
+import { FaHome } from "react-icons/fa";
+// import {MdComputer} from 'react-icons/md'
+import { BsCalendarDayFill } from "react-icons/bs";
 import { BsUnlockFill } from "react-icons/bs";
-import {AiOutlineOrderedList} from 'react-icons/ai'
-import {FiBookOpen} from 'react-icons/fi'
-import {BsPersonCheckFill} from 'react-icons/bs'
+import { AiOutlineOrderedList } from "react-icons/ai";
+import { FiBookOpen } from "react-icons/fi";
+import { BsPersonCheckFill } from "react-icons/bs";
+
 const links = [
   {
     id: 1,
     text: "home",
-    path: "/dashboard",
+    path: "/dashboard/user",
     icon: <FaHome />,
   },
   {
@@ -28,7 +29,7 @@ const links = [
     path: "/dashboard/labaccess",
     icon: <BsUnlockFill />,
   },
-   {
+  {
     id: 10,
     text: "lab accessDynamic",
     path: "/dashboard/labaccess2",
