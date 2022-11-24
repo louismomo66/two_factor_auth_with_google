@@ -4,19 +4,22 @@ import { useNavigate, Link } from "react-router-dom";
 import { Logo, FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useDispatch } from "react-redux";
-import { isValidEmail } from "../utils/utils";
-import { loginUser } from "../store/actions/authActions";
+import { useQuery } from "../utils/utils";
+import { resetPassword } from "../store/actions/authActions";
 
 const initialState = {
-  email: "",
   password: "",
+  confirmPassword: "",
 };
-const Login = () => {
+const ResetPassword = () => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  let query = useQuery();
+  const token = query.get("token");
 
   const handleChange = (e) => {
     setError("");
@@ -26,72 +29,66 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = values;
+    const { password, confirmPassword } = values;
 
-    if (!email || !password) {
+    if (!password || !confirmPassword) {
       setError("Please fill all the field");
       return;
     }
-    if (!isValidEmail(email)) {
-      setError("Please enter a valid email");
+    if (password !== confirmPassword) {
+      setError("Passwords don't match!");
       return;
     }
 
     try {
       setLoading(true);
       const data = {
-        email,
         password,
+        token,
       };
-      await dispatch(loginUser(data, navigate, dispatch));
+      await dispatch(resetPassword(data, navigate));
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
 
-  const token = localStorage.getItem("token");
-
-  console.log("dm 1", token ? true : false);
-  console.log("dm 2", !token);
-  console.log("dm 3", !!token);
-
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
         <Logo />
-        <h3> Login</h3>
+        <h3> Reset Password</h3>
         {error && <Alert alertType="danger" alertText={error} />}
 
-        {/* email input */}
-        <FormRow
-          type="email"
-          name="email"
-          value={values.email}
-          handleChange={handleChange}
-        />
-        {/* password input */}
         <FormRow
           type="password"
           name="password"
           value={values.password}
           handleChange={handleChange}
         />
+        <FormRow
+          type="password"
+          labelText="Confirm Password"
+          name="confirmPassword"
+          value={values.confirmPassword}
+          handleChange={handleChange}
+        />
         <div className="forgot-password">
           <p>
-            <Link to="/forgot-password"> Forgot Password?</Link>
+            <Link to="/forgot-password"> Expired Token?</Link>
           </p>
         </div>
+
         <button type="submit" className="btn btn-block" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Resetting password..." : "Reset Password"}
         </button>
         <p>
-          Not a member yet? &nbsp;&nbsp;
-          <Link to="../register">Register</Link>
+          Remembered password? &nbsp;&nbsp;
+          <Link to="../login">Login</Link>
         </p>
       </form>
     </Wrapper>
   );
 };
 
-export default Login;
+export default ResetPassword;

@@ -1,7 +1,10 @@
 import { toast } from "react-toastify";
 import { axios } from "../../utils/axios";
 import {
+  accountVerificationRoute,
+  forgotPasswordRoute,
   loginRoute,
+  passwordResetRoute,
   profileUpdateRoute,
   signupRoute,
 } from "../../utils/requests/apiRoutes";
@@ -25,7 +28,8 @@ export const registerUser = (data, navigate) => {
         toast.success(
           "Account created Successfully, Check your email for a link to verify it"
         );
-        navigate("/login");
+        localStorage.setItem("userEmail", data?.email);
+        navigate("/verify-account");
       }
     } catch (err) {
       toast.error(showError(err));
@@ -40,7 +44,6 @@ export const updateUserDetails = (data, userId) => {
     try {
       const { url } = profileUpdateRoute(userId);
       const res = await axios.patch(url, data);
-      console.log("updated user", res);
       localStorage.setItem("CurrentUser", JSON.stringify(res.data));
       dispatch(updateProfileSuccess(res.data));
       dispatch(setAuthenticationLoading(false));
@@ -60,7 +63,6 @@ export const loginUser = (data, navigate) => {
     try {
       const { url } = loginRoute();
       const res = await axios.post(url, data);
-      console.log(res);
       dispatch(
         authenticationSuccess({
           data: res?.data,
@@ -74,13 +76,67 @@ export const loginUser = (data, navigate) => {
       navigate("/dashboard");
     } catch (err) {
       dispatch(setAuthenticationLoading(false));
-      if (err?.response?.status === 400) {
+      if (err?.response?.status === 401) {
         return toast.error("Invalid email/password!");
       } else if (err?.response?.status === 403) {
         return toast.error("Please verify your account and try again");
       } else {
         toast.error(showError(err));
       }
+    }
+  };
+};
+
+export const forgotPassword = (data) => {
+  return async (dispatch) => {
+    dispatch(setAuthenticationLoading(true));
+    try {
+      const { url } = forgotPasswordRoute();
+      const res = await axios.post(url, data);
+      if (res.status === 200) {
+        toast.success("Please check your email for a link to reset password");
+      }
+      dispatch(setAuthenticationLoading(false));
+    } catch (err) {
+      dispatch(setAuthenticationLoading(false));
+      toast.error(showError(err));
+    }
+  };
+};
+
+export const verifyCode = (data, navigate) => {
+  return async (dispatch) => {
+    dispatch(setAuthenticationLoading(true));
+    try {
+      const { url } = accountVerificationRoute();
+      const res = await axios.post(url, data);
+      dispatch(setAuthenticationLoading(false));
+      if (res.status === 200) {
+        navigate("/login");
+        toast.success("Account verified successfully");
+        localStorage.removeItem("userEmail");
+      }
+    } catch (err) {
+      dispatch(setAuthenticationLoading(false));
+      toast.error(showError(err));
+    }
+  };
+};
+
+export const resetPassword = (data, navigate) => {
+  return async (dispatch) => {
+    dispatch(setAuthenticationLoading(true));
+    try {
+      const { url } = passwordResetRoute();
+      const res = await axios.post(url, data);
+      toast.success("Password changed successfully");
+      dispatch(setAuthenticationLoading(false));
+      if (res.status === 200) {
+        navigate("/login");
+      }
+    } catch (err) {
+      dispatch(setAuthenticationLoading(false));
+      toast.error(showError(err));
     }
   };
 };

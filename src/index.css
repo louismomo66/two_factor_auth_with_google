@@ -327,7 +327,6 @@ input[type="email"]:disabled,
 .coffee-info a {
   color: var(--primary-500);
 }
-
 .forgot-password {
   display: flex;
   justify-content: flex-start;

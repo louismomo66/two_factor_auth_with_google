@@ -1,5 +1,5 @@
 import axiosMain from "axios";
-export const baseUrl = "https://young-wind-4552.fly.dev"; //PRODUCTION
+export const baseUrl = "https://young-wind-4552.fly.dev"; //PRODUCTION VERSION
 // export const baseUrl = "http://127.0.0.1:3003"; //LOCAL VERSION
 
 export const axios = axiosMain.create({

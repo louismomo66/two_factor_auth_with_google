@@ -4,14 +4,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { Logo, FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useDispatch } from "react-redux";
-import { isValidEmail } from "../utils/utils";
-import { loginUser } from "../store/actions/authActions";
+import { verifyCode } from "../store/actions/authActions";
 
-const initialState = {
-  email: "",
-  password: "",
-};
-const Login = () => {
+const VerifyAccount = () => {
+  const userEmail = localStorage.getItem("userEmail");
+  const initialState = {
+    email: userEmail,
+    code: "",
+  };
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -26,14 +26,14 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = values;
+    const { email, code } = values;
 
-    if (!email || !password) {
+    if (!email || !code) {
       setError("Please fill all the field");
       return;
     }
-    if (!isValidEmail(email)) {
-      setError("Please enter a valid email");
+    if (code.length !== 6 || isNaN(code)) {
+      setError("Please enter a valid code");
       return;
     }
 
@@ -41,49 +41,37 @@ const Login = () => {
       setLoading(true);
       const data = {
         email,
-        password,
+        code,
       };
-      await dispatch(loginUser(data, navigate, dispatch));
+      await dispatch(verifyCode(data, navigate));
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
 
-  const token = localStorage.getItem("token");
-
-  console.log("dm 1", token ? true : false);
-  console.log("dm 2", !token);
-  console.log("dm 3", !!token);
-
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
         <Logo />
-        <h3> Login</h3>
+        <h3> Verify Account</h3>
         {error && <Alert alertType="danger" alertText={error} />}
+        <p>Please enter the 6-digit code sent to your email</p>
 
-        {/* email input */}
         <FormRow
           type="email"
           name="email"
+          handleChange={handleChange}
           value={values.email}
-          handleChange={handleChange}
         />
-        {/* password input */}
         <FormRow
-          type="password"
-          name="password"
-          value={values.password}
+          type="number"
+          name="code"
+          value={values.code}
           handleChange={handleChange}
         />
-        <div className="forgot-password">
-          <p>
-            <Link to="/forgot-password"> Forgot Password?</Link>
-          </p>
-        </div>
         <button type="submit" className="btn btn-block" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Verifying..." : "Verify"}
         </button>
         <p>
           Not a member yet? &nbsp;&nbsp;
@@ -94,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default VerifyAccount;

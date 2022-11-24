@@ -1,5 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Landing, Register, Error, ProtectedRoute, Login } from "./pages";
+import {
+  Landing,
+  Register,
+  Error,
+  ProtectedRoute,
+  Login,
+  ForgotPassword,
+} from "./pages";
 import {
   Home,
   Profile,
@@ -15,6 +22,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { AutoAuthenticate } from "./store/actions/authActions";
+import ResetPassword from "./pages/ResetPassword";
+import VerifyAccount from "./pages/VerifyAccount";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -62,6 +71,9 @@ function App() {
         />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-account" element={<VerifyAccount />} />
 
         <Route path="*" element={<Error />} />
       </Routes>

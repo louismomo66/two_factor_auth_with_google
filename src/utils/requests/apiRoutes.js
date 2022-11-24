@@ -13,15 +13,15 @@ export const getPartnersRoute = () => ({
 });
 
 export const forgotPasswordRoute = () => ({
-  url: `/api/v1/users/forgotPassword`,
+  url: `/api/v1/auth/forgot-password`,
 });
-export const passwordResetRoute = (resetToken) => ({
-  url: `/api/v1/users/resetPassword/${resetToken}`,
+export const passwordResetRoute = () => ({
+  url: `/api/v1/auth/reset-password`,
 });
 
 export const requestAccountVerificationRoute = () => ({
   url: `/api/v1/users/requestAccountVerification`,
 });
-export const accountVerificationRoute = (verificationToken) => ({
-  url: `/api/v1/users/verifyAccount/${verificationToken}`,
+export const accountVerificationRoute = () => ({
+  url: `/api/v1/auth/verify-email`,
 });
