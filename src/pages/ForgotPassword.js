@@ -10,6 +10,7 @@ import { forgotPassword } from "../store/actions/authActions";
 const initialState = {
   email: "",
 };
+
 const ForgotPassword = () => {
   const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,11 @@ const ForgotPassword = () => {
       setLoading(true);
       const data = {
         email,
-        returnUrl: "http://localhost:3001/reset-password",
+        returnUrl: `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3001"
+            : "https://students.smarterlabs.tech"
+        }/reset-password`,
       };
       await dispatch(forgotPassword(data, navigate));
       setLoading(false);

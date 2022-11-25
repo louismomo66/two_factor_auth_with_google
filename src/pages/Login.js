@@ -50,12 +50,6 @@ const Login = () => {
     }
   };
 
-  const token = localStorage.getItem("token");
-
-  console.log("dm 1", token ? true : false);
-  console.log("dm 2", !token);
-  console.log("dm 3", !!token);
-
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>

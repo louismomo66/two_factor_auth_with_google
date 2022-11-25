@@ -144,7 +144,6 @@ export const resetPassword = (data, navigate) => {
 export const SaveTokenInLocalStorage = (dispatch, userDetails) => {
   const expiresIn =
     new Date(userDetails.tokenExpiry).getTime() - new Date().getTime();
-  console.log(expiresIn);
   logOutTimer(dispatch, expiresIn);
   let AuthTokenDetails = {
     token: userDetails.token,
