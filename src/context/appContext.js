@@ -17,6 +17,8 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS
   // SCHEDULE_LAB_BEGIN,
   // SCHEDULE_LAB_SUCCESS,
   // SCHEDULE_LAB_ERROR,
@@ -41,6 +43,8 @@ const initialState = {
   street: "",
   institution: "",
   institutionOptions: [],
+  stats: {},
+  monthlyLabAccesses: [],
   // LabScheduleOptions: ["Pending", "Completed", "Missed", "Canceled"],
   // LabSchedule: "Pending",
   // startTime: "",
@@ -57,7 +61,8 @@ const AppProvider = ({ children }) => {
 
   // axios
   const authFetch = axios.create({
-    baseURL: "/api/v1/auth",
+    // baseURL: "/api/v1/auth",
+    baseURL: "https://young-wind-4552.fly.dev/api/v1/",
   });
   //request
   authFetch.interceptors.request.use(
@@ -210,6 +215,24 @@ const AppProvider = ({ children }) => {
       
   //   }
   // };
+  const showStats = async () => {
+    dispatch({ type: SHOW_STATS_BEGIN });
+    try {
+      const { data } = await authFetch("/lab-access/stats");
+      dispatch({
+        type: SHOW_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultLabStats,
+          monthlyLabAccesses: data.monthlyLabAccesses,
+        },
+      });
+    } catch (error) {
+      console.log(error.response);
+      // logoutUser()
+    }
+
+    clearAlert();
+  };
   return (
     <AppContext.Provider
       value={{
@@ -222,6 +245,7 @@ const AppProvider = ({ children }) => {
         toggleSidebar,
         logoutUser,
         handleChange,
+        showStats
         // scheduleLab,
       }}
     >

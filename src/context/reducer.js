@@ -13,6 +13,8 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
   // SCHEDULE_LAB_BEGIN,
   // SCHEDULE_LAB_SUCCESS,
   // SCHEDULE_LAB_ERROR,
@@ -171,6 +173,17 @@ const reducer = (state, action) => {
   //     alertText: action.payload.msg,
   //   };
   // }
+  if (action.type === SHOW_STATS_BEGIN) {
+    return { ...state, isLoading: true, showAlert: false };
+  }
+  if (action.type === SHOW_STATS_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+      stats: action.payload.stats,
+      monthlyLabAccesses: action.payload.monthlyLabAccesses,
+    };
+  }
 
   throw new Error(`no such action: ${action.type}`);
 };
