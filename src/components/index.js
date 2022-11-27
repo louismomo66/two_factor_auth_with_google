@@ -6,7 +6,9 @@ import BigSidebar from './BigSidebar'
 import Navbar from './Navbar'
 import FormRowSelect from './FormRowSelect';
 import Scheduler from './Scheduler';
-
+import StatsContainer from './StatsContainer'
+import Loading from './Loading'
+import ChartsContainer from './ChartsContainer'
 
 
 export {
@@ -18,5 +20,8 @@ export {
   Navbar,
   FormRowSelect,
   Scheduler,
+  StatsContainer,
+  Loading,
+  ChartsContainer
   
 };
