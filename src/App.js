@@ -8,7 +8,7 @@ import {
   ForgotPassword,
 } from "./pages";
 import {
-  Home,
+  Stats,
   Profile,
   Labs,
   Reports,
@@ -56,7 +56,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="user" element={<Home />} />
+          <Route path="" element={<Stats />} />
           <Route path="profile" element={<Profile />} />
           <Route path="labs" element={<Labs />} />
           <Route path="labaccess" element={<LabAccess />} />
