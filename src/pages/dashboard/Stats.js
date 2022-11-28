@@ -1,19 +1,23 @@
-import { useEffect } from "react";
-import { useAppContext } from "../../context/appContext";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { displayStats } from "../../store/actions/labActions";
 import { StatsContainer, Loading, ChartsContainer } from "../../components";
 
 const Stats = () => {
-  const { showStats, isLoading, monthlyLabAccesses } = useAppContext();
+  const { monthlyLabAccesses } = useSelector((state) => state.lab);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    showStats();
+    dispatch(displayStats());
   }, []);
-  if (isLoading) {
-    return <Loading center />;
-  }
+
+  
   return (
     <>
       {/* <StatsContainer />
       {monthlyLabAccesses.length > 0 && <ChartsContainer />} */}
+
       <StatsContainer />
       {<ChartsContainer />}
     </>
