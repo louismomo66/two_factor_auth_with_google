@@ -3,13 +3,18 @@ import { useAppContext } from "../../context/appContext";
 import { StatsContainer, Loading, ChartsContainer } from "../../components";
 
 const Stats = () => {
-  const { showStats, isLoading, monthlyLabAccesses } = useAppContext();
+  const { showStats, isLoading } = useAppContext();
+
   useEffect(() => {
     showStats();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   if (isLoading) {
     return <Loading center />;
   }
+
   return (
     <>
       {/* <StatsContainer />

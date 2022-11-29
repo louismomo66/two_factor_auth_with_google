@@ -47,6 +47,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
+
       <Routes>
         <Route
           path="/dashboard/*"
@@ -56,7 +57,8 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="" element={<Stats />} />
+          <Route path="" element={<Navigate to="/dashboard/user" />} />
+          <Route path="user" element={<Stats />} />
           <Route path="profile" element={<Profile />} />
           <Route path="labs" element={<Labs />} />
           <Route path="labaccess" element={<LabAccess />} />
@@ -67,10 +69,13 @@ function App() {
 
         <Route
           path="/"
-          element={isLoggedIn ? <Navigate to="/dashboard" /> : <Landing />}
+          element={isLoggedIn ? <Navigate to="/dashboard/user" /> : <Landing />}
         />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={isLoggedIn ? <Navigate to="/dashboard/user" /> : <Login />}
+        />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-account" element={<VerifyAccount />} />
