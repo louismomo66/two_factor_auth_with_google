@@ -12,7 +12,8 @@ export const displayStats = () => {
       const { data } = await axios.get(url);
       const { defaultLabStats, monthlyLabAccesses } = data;
       dispatch(setLoading(false));
-      dispatch({ defaultLabStats, monthlyLabAccesses });
+      // dispatch({ defaultLabStats, monthlyLabAccesses });
+      dispatch(showStats({defaultLabStats,monthlyLabAccesses}))
     } catch (error) {
       toast.error(showError(error));
       console.log(error)

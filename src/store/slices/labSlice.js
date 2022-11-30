@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
-  stats: {},
+  defaultLabStats: {},
   monthlyLabAccesses: [],
 };
 export const labSlice = createSlice({
@@ -15,7 +15,7 @@ export const labSlice = createSlice({
     },
     showStats(state,{payload}){
         state.isLoading = false
-        state.stats = payload.stats
+        state.defaultLabStats = payload.defaultLabStats
         state.monthlyLabAccesses = payload.monthlyLabAccesses
     }
   },
