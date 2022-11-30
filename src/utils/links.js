@@ -14,7 +14,7 @@ const links = [
   {
     id: 1,
     text: "home",
-    path: "/dashboard/",
+    path: "/dashboard/user",
     icon: <FaHome />,
   },
   {

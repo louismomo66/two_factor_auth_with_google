@@ -37,7 +37,7 @@ export class LabList extends React.Component {
     }
   }
   dataStateChange(state) {
-    console.log("State:", state);
+    // console.log("State:", state);
     const searchTerm = state?.search?.[0]?.key || "";
     let page = 1;
     let take = state.take || 1;
@@ -53,10 +53,10 @@ export class LabList extends React.Component {
   gridTemplate(props) {
     const id = props.id;
     return (
-      <div className='text-danger'>
+      <div className="text-danger">
         <ButtonComponent
           onClick={() => console.log("clicked:", id)}
-          cssClass='e-info'
+          cssClass="e-info"
         >
           Request
         </ButtonComponent>
@@ -70,8 +70,8 @@ export class LabList extends React.Component {
     this.renderComplete = this.renderComplete.bind(this);
     this.dataStateChange = this.dataStateChange.bind(this);
     return (
-      <div className='control-pane'>
-        <div className='control-section'>
+      <div className="control-pane">
+        <div className="control-section">
           <GridComponent
             dataSource={this.data}
             ref={(g) => (this.grid = g)}
@@ -82,19 +82,19 @@ export class LabList extends React.Component {
             toolbar={toolbarOptions}
           >
             <ColumnsDirective>
-              <ColumnDirective headerText='No' width='20' textAlign='Right' />
-              <ColumnDirective field='name' headerText='Lab Name' width='100' />
-              <ColumnDirective field='code' headerText='Lab Code' width='30' />
+              <ColumnDirective headerText="No" width="20" textAlign="Right" />
+              <ColumnDirective field="name" headerText="Lab Name" width="100" />
+              <ColumnDirective field="code" headerText="Lab Code" width="30" />
               <ColumnDirective
-                field='startDate'
-                headerText='Starts'
-                width='70'
+                field="startDate"
+                headerText="Starts"
+                width="70"
               />
 
               {/* <ColumnDirective field='StopDate' headerText='Ends' width='70' /> */}
               <ColumnDirective
-                headerText='Request Access'
-                width='60'
+                headerText="Request Access"
+                width="60"
                 template={this.template}
               />
             </ColumnsDirective>
