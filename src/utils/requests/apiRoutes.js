@@ -25,6 +25,6 @@ export const requestAccountVerificationRoute = () => ({
 export const accountVerificationRoute = () => ({
   url: `/api/v1/auth/verify-email`,
 });
-export const userStatsRoute = () => ({
-  url: `/lab-access/stats`,
+export const getStats = () => ({
+  url: `/api/v1/lab-access/stats`,
 });

@@ -1,5 +1,5 @@
 // import { IoBarChartSharp } from "react-icons/io5";
-import { MdQueryStats } from "react-icons/md";
+// import { MdQueryStats } from "react-icons/md";
 // import { FaWpforms } from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
 import { FaHome } from "react-icons/fa";
@@ -14,7 +14,7 @@ const links = [
   {
     id: 1,
     text: "home",
-    path: "/dashboard/user",
+    path: "/dashboard/",
     icon: <FaHome />,
   },
   {
@@ -29,12 +29,7 @@ const links = [
     path: "/dashboard/labaccess",
     icon: <BsUnlockFill />,
   },
-  {
-    id: 10,
-    text: "lab accessDynamic",
-    path: "/dashboard/labaccess2",
-    icon: <MdQueryStats />,
-  },
+
   {
     id: 4,
     text: "schedules",

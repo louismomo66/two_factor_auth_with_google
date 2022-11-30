@@ -18,7 +18,7 @@ import {
   UPDATE_USER_ERROR,
   HANDLE_CHANGE,
   SHOW_STATS_BEGIN,
-  SHOW_STATS_SUCCESS
+  SHOW_STATS_SUCCESS,
   // SCHEDULE_LAB_BEGIN,
   // SCHEDULE_LAB_SUCCESS,
   // SCHEDULE_LAB_ERROR,
@@ -128,7 +128,7 @@ const AppProvider = ({ children }) => {
     }
     clearAlert();
   };
-  
+
   const loginUser = async (currentUser) => {
     dispatch({ type: LOGIN_USER_BEGIN });
     try {
@@ -212,7 +212,7 @@ const AppProvider = ({ children }) => {
   //       type: SCHEDULE_LAB_ERROR,
   //       payload: { msg: error.response.data.msg },
   //     });
-      
+
   //   }
   // };
   const showStats = async () => {
@@ -245,7 +245,7 @@ const AppProvider = ({ children }) => {
         toggleSidebar,
         logoutUser,
         handleChange,
-        showStats
+        showStats,
         // scheduleLab,
       }}
     >
