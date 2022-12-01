@@ -8,11 +8,11 @@ import {
   Toolbar,
 } from "@syncfusion/ej2-react-grids";
 
-import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 import "../../assets/sf/grid.css";
 import { labService } from "../../services/labs";
 import { AppContext } from "../../context/appContext";
 import React from "react";
+import Button from "../Button";
 
 const toolbarOptions = ["Search"];
 
@@ -21,7 +21,7 @@ export class LabList extends React.Component {
     super(...arguments);
     this.template = this.gridTemplate;
   }
-  service = labService(this.context.token);
+  service = labService();
   grid;
   data;
 
@@ -54,12 +54,7 @@ export class LabList extends React.Component {
     const id = props.id;
     return (
       <div className="text-danger">
-        <ButtonComponent
-          onClick={() => console.log("clicked:", id)}
-          cssClass="e-info"
-        >
-          Request
-        </ButtonComponent>
+        <Button onClick={() => console.log("clicked:", id)}>Request</Button>
       </div>
     );
   }
@@ -82,16 +77,28 @@ export class LabList extends React.Component {
             toolbar={toolbarOptions}
           >
             <ColumnsDirective>
-              <ColumnDirective headerText="No" width="20" textAlign="Right" />
-              <ColumnDirective field="name" headerText="Lab Name" width="100" />
-              <ColumnDirective field="code" headerText="Lab Code" width="30" />
               <ColumnDirective
-                field="startDate"
-                headerText="Starts"
+                headerText="No."
+                width="20"
+                field="labNo"
+                textAlign="Right"
+              />
+              <ColumnDirective
+                field="labName"
+                headerText="Lab Name"
+                width="100"
+              />
+              <ColumnDirective
+                field="labCode"
+                headerText="Lab Code"
+                width="30"
+              />
+              <ColumnDirective
+                field="timeInterval"
+                headerText="Time Interval"
                 width="70"
               />
 
-              {/* <ColumnDirective field='StopDate' headerText='Ends' width='70' /> */}
               <ColumnDirective
                 headerText="Request Access"
                 width="60"

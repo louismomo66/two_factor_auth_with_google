@@ -1,31 +1,30 @@
-import axios from 'axios'
+import { axios } from "../utils/axios";
 
-
-// currently using proxy
-// const baseUrl = ""
-
-export const labService = (token) => {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
+export const labService = () => {
+  const getPage = async (page, limit, search) => {
+    try {
+      const result = await axios.get(
+        `/api/v1/client/paged/${page}/${limit}?search=${search}`
+      );
+      return {
+        count: result.data.totalDocs,
+        result: result.data.docs.map((lab, idx) => ({
+          id: lab?.id,
+          labNo: idx + 1,
+          labName: lab?.name,
+          labCode: lab?.code,
+          timeInterval: `${lab?.timeMinutes} minutes`,
+        })),
+      };
+    } catch (error) {
+      console.log("Error:", error.message);
+      throw error;
     }
-    const getPage = async (page, limit, search) => {
-        try {
-            var result = await axios.get(`/api/v1/client/paged/${page}/${limit}?search=${search}`, config);
-            return {
-                count: result.data.totalDocs,
-                result: result.data.docs
-            }
-        } catch (error) {
-            console.log('Error:', error.message)
-            throw error
-        }
-    }
+  };
 
-    const service = {
-        getPage
-    }
+  const service = {
+    getPage,
+  };
 
-    return service
-}
+  return service;
+};
