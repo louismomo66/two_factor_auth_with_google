@@ -42,7 +42,11 @@ const createSendToken = async (user, statusCode, res) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const existingUser = await User.findOne({ email: req.body.email });
-  if (existingUser) return next(new AppError("Email already in use", 400));
+  if (existingUser)
+    return res.status(400).json({
+      status: "fail",
+      message: "Email Already exits",
+    });
   let verifyToken = "" + Math.floor(100000 + Math.random() * 900000);
   const newUser = await User.create({ ...req.body, verifyToken });
   await newUser.save({ validateBeforeSave: false });
@@ -274,7 +278,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.updateUserDetail = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   // 3) Update user document
   const email = req.body.email;
   const image = req.body.imageUrl;
@@ -340,7 +343,10 @@ exports.RequestAccountVerification = catchAsync(async (req, res, next) => {
 exports.verifyAccount = catchAsync(async (req, res, next) => {
   const { token, email } = req.body;
   if (!token || !email) {
-    return next(new AppError("Invalid credential", 400));
+    return res.status(400).json({
+      status: "fail",
+      message: "Invalid credential",
+    });
   }
   const user = await User.findOne({
     email: email,

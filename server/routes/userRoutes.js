@@ -27,7 +27,6 @@ router.post("/forgotPassword", forgotPassword);
 router.post("/requestAccountVerification", RequestAccountVerification);
 router.patch("/resetPassword/:token", resetPassword);
 router.patch("/verifyAccount", verifyAccount);
-// router.patch("/verifyAccount", verifyAccount);
 router.patch("/updateMe", protect, updateMe);
 router.get("/validate", protect, validate);
 router.get("/search", protect, searchUsers);
