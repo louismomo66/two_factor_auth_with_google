@@ -1,0 +1,20 @@
+extends baseEmail
+
+block content
+  p Hi #{firstName} #{lastName},
+  p We are preparing to release yet another version of gpa elevator(v1.2.0) with new features and improvements in different areas on the platform. Please take a moment to provide us with few information to better the performance and address all issues that you have been experiencing since you started using the platform🙏.
+  p We look forward to receiving your honest opinions. Thanks
+ 
+    table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+      tbody
+       tr
+        td(align='left')
+          table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+            tbody
+              tr
+                td
+                  a(href=`${downloadURL}`, target='_blank') Take Survey
+
+  p If the button doesn't redirect to the form, click this link to get start #{downloadURL}
+   
+

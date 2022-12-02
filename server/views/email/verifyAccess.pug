@@ -1,0 +1,11 @@
+extends baseEmail
+
+block content
+  p Hi #{fullName},
+  p The information is very sensitive and only authorized users at TOTP are allowed to access it.
+  p Use the code 
+    |
+    strong #{token} 
+    |  to verify your identity and access content
+
+  p If you did not make this request, please contact Support and ignore this email!

@@ -1,0 +1,11 @@
+extends baseEmail
+
+block content
+  p Hi #{fullName},
+  p Email verification is required to complete signup process at TOTP.
+  p Use the code 
+    |
+    strong #{token} 
+    |  to verify your email
+
+  p If you did not make this request, please contact Support and ignore this email!
