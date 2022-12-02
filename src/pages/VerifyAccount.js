@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { Logo, FormRow, Alert } from "../components";
+import { FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useDispatch } from "react-redux";
 import { verifyCode } from "../store/actions/authActions";
@@ -12,8 +12,8 @@ const VerifyAccount = () => {
     email: userEmail,
     code: "",
   };
-  const [values, setValues] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState(initialState);
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const VerifyAccount = () => {
       setLoading(true);
       const data = {
         email,
-        code,
+        token: code,
       };
       await dispatch(verifyCode(data, navigate));
       setLoading(false);
@@ -53,7 +53,6 @@ const VerifyAccount = () => {
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
-        <Logo />
         <h3> Verify Account</h3>
         {error && <Alert alertType="danger" alertText={error} />}
         <p>Please enter the 6-digit code sent to your email</p>

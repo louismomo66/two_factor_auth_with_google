@@ -1,15 +1,21 @@
 //AUTH ROUTES
 export const loginRoute = () => ({
-  url: `/api/v1/auth/login`,
+  url: `/api/v1/users/login`,
 });
+
 export const signupRoute = () => ({
-  url: `/api/v1/auth/register`,
+  url: `/api/v1/users/signup`,
 });
-export const profileUpdateRoute = (userId) => ({
-  url: `/api/v1/users/${userId}`,
+
+export const profileUpdateRoute = () => ({
+  url: `/api/v1/users/updateDetails`,
 });
-export const getPartnersRoute = () => ({
-  url: `/api/v1/partners`,
+
+export const requestAccessRoute = () => ({
+  url: `/api/v1/users/requestAccess`,
+});
+export const verifyAccessCodeRoute = () => ({
+  url: `/api/v1/users/grantAccess`,
 });
 
 export const forgotPasswordRoute = () => ({
@@ -23,7 +29,7 @@ export const requestAccountVerificationRoute = () => ({
   url: `/api/v1/users/requestAccountVerification`,
 });
 export const accountVerificationRoute = () => ({
-  url: `/api/v1/auth/verify-email`,
+  url: `/api/v1/users/verifyAccount`,
 });
 export const getStats = () => ({
   url: `/api/v1/lab-access/stats`,

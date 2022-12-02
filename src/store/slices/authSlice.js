@@ -24,6 +24,7 @@ export const authSlice = createSlice({
       state.isLoading = payload;
     },
     authenticationSuccess(state, { payload }) {
+      console.log("payload", payload);
       state.user = payload.user;
       state.token = payload.token;
       state.isLoggedIn = !!state.token;

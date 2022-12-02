@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import { Logo, FormRow, Alert } from "../components";
+import { FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useDispatch } from "react-redux";
 import { useQuery } from "../utils/utils";
@@ -56,7 +56,6 @@ const ResetPassword = () => {
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
-        <Logo />
         <h3> Reset Password</h3>
         {error && <Alert alertType="danger" alertText={error} />}
 

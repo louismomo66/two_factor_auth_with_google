@@ -19,3 +19,6 @@ export const isEmptyObject = (obj) => {
 export function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+
+export const clientId =
+  "54430491219-ua5fgogfqp2i1e4mkpc2pona8blkpbl0.apps.googleusercontent.com";

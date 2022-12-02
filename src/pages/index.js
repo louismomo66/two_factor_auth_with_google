@@ -1,8 +1,6 @@
-import Landing from "./Landing";
+import Login from "./Login";
 import Register from "./Register";
 import Error from "./Error";
-import ProtectedRoute from "./ProtectedRoute";
-import Login from "./Login";
 import ForgotPassword from "./ForgotPassword";
 
-export { Landing, Register, Error, ProtectedRoute, Login, ForgotPassword };
+export { Register, Error, Login, ForgotPassword };

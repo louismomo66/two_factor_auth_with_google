@@ -23,35 +23,35 @@ export const registerUser = (data, navigate) => {
     try {
       const { url } = signupRoute();
       const res = await axios.post(url, data);
+      console.log(res);
       dispatch(setAuthenticationLoading(false));
-      if (res.status === 200) {
+      if (res.status === 201) {
         toast.success(
-          "Account created Successfully, Check your email for a link to verify it"
+          "Account created Successfully, Check your email for a code to verify it"
         );
         localStorage.setItem("userEmail", data?.email);
         navigate("/verify-account");
       }
     } catch (err) {
+      console.log(err);
       toast.error(showError(err));
       dispatch(setAuthenticationLoading(false));
     }
   };
 };
 
-export const updateUserDetails = (data, userId) => {
+export const updateUserDetails = (data) => {
   return async (dispatch) => {
     dispatch(setAuthenticationLoading(true));
     try {
-      const { url } = profileUpdateRoute(userId);
-      const res = await axios.patch(url, data);
-      localStorage.setItem("CurrentUser", JSON.stringify(res.data));
-      dispatch(updateProfileSuccess(res.data));
+      const { url } = profileUpdateRoute();
+      const res = await axios.post(url, data);
+
+      localStorage.setItem("CurrentUser", JSON.stringify(res?.data?.user));
+      dispatch(updateProfileSuccess(res?.data?.user));
       dispatch(setAuthenticationLoading(false));
-      if (res.status === 200) {
-        toast.success("Profile updated Successfully");
-      }
     } catch (err) {
-      toast.error(showError(err));
+      // toast.error(showError(err));
       dispatch(setAuthenticationLoading(false));
     }
   };
@@ -73,7 +73,7 @@ export const loginUser = (data, navigate) => {
       toast.success("Login successful");
       SaveTokenInLocalStorage(dispatch, res?.data);
       dispatch(setAuthenticationLoading(false));
-      navigate("/dashboard");
+      navigate("/dashboard/user");
     } catch (err) {
       dispatch(setAuthenticationLoading(false));
       if (err?.response?.status === 401) {
@@ -109,7 +109,7 @@ export const verifyCode = (data, navigate) => {
     dispatch(setAuthenticationLoading(true));
     try {
       const { url } = accountVerificationRoute();
-      const res = await axios.post(url, data);
+      const res = await axios.patch(url, data);
       dispatch(setAuthenticationLoading(false));
       if (res.status === 200) {
         navigate("/login");
@@ -142,16 +142,15 @@ export const resetPassword = (data, navigate) => {
 };
 
 export const SaveTokenInLocalStorage = (dispatch, userDetails) => {
-  const expiresIn =
-    new Date(userDetails.tokenExpiry).getTime() - new Date().getTime();
-  logOutTimer(dispatch, expiresIn);
+  logOutTimer(dispatch, userDetails?.expiresIn);
   let AuthTokenDetails = {
-    token: userDetails.token,
-    expiresIn: expiresIn,
-    tokenExpiry: userDetails.tokenExpiry,
+    token: userDetails?.token,
+    expiresIn: userDetails?.expiresIn,
+    expirationtime: userDetails?.expirationtime,
   };
+
   localStorage.setItem("AuthToken", JSON.stringify(AuthTokenDetails));
-  localStorage.setItem("CurrentUser", JSON.stringify(userDetails.user));
+  localStorage.setItem("CurrentUser", JSON.stringify(userDetails?.user));
 };
 
 export const logOutTimer = (dispatch, timer) => {
@@ -169,7 +168,7 @@ export const AutoAuthenticate = (dispatch) => {
     return;
   }
   UserToken = JSON.parse(AuthToken);
-  let expireDate = new Date(UserToken.tokenExpiry);
+  let expireDate = new Date(UserToken?.expirationtime);
   let todaysDate = new Date();
   if (todaysDate > expireDate) {
     return dispatch(logout());

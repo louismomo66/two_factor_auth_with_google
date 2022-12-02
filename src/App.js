@@ -1,29 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import {
-  Landing,
-  Register,
-  Error,
-  ProtectedRoute,
-  Login,
-  ForgotPassword,
-} from "./pages";
-import {
-  Stats,
-  Profile,
-  Labs,
-  Reports,
-  SharedLayout,
-  Schedules,
-  Tests,
-  LabAccess,
-} from "./pages/dashboard";
-import { ToastContainer } from "react-toastify";
+import { Register, Error, Login, ForgotPassword } from "./pages";
+
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { AutoAuthenticate } from "./store/actions/authActions";
 import ResetPassword from "./pages/ResetPassword";
 import VerifyAccount from "./pages/VerifyAccount";
+import UserDetails from "./pages/UserDetails";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -50,26 +36,17 @@ function App() {
 
       <Routes>
         <Route
-          path="/dashboard/*"
+          path="/dashboard/user"
           element={
             <ProtectedRoute>
-              <SharedLayout />
+              <UserDetails />
             </ProtectedRoute>
           }
-        >
-          <Route path="" element={<Navigate to="/dashboard/user" />} />
-          <Route path="user" element={<Stats />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="labs" element={<Labs />} />
-          <Route path="labaccess" element={<LabAccess />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="tests" element={<Tests />} />
-          <Route path="schedules" element={<Schedules />} />
-        </Route>
+        />
 
         <Route
           path="/"
-          element={isLoggedIn ? <Navigate to="/dashboard/user" /> : <Landing />}
+          element={isLoggedIn ? <Navigate to="/dashboard/user" /> : <Login />}
         />
         <Route path="/register" element={<Register />} />
         <Route

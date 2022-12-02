@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Logo, FormRow, Alert } from "../components";
+import { FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../store/actions/authActions";
-import { isValidEmail } from "../utils/utils";
+import {
+  registerUser,
+  SaveTokenInLocalStorage,
+} from "../store/actions/authActions";
+import { clientId, isValidEmail } from "../utils/utils";
+import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { authenticationSuccess } from "../store/slices/authSlice";
 
 const initialState = {
-  firstName: "",
-  lastName: "",
+  fullName: "",
   email: "",
   password: "",
 };
@@ -27,9 +34,9 @@ const Register = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, password } = values;
+    const { fullName, email, password } = values;
 
-    if (!email || !password || (!firstName && !lastName)) {
+    if (!email || !password || !fullName) {
       setError("Please fill all the field");
       return;
     }
@@ -45,8 +52,7 @@ const Register = () => {
     try {
       setLoading(true);
       const data = {
-        firstName,
-        lastName,
+        name: fullName,
         email,
         password,
       };
@@ -57,26 +63,73 @@ const Register = () => {
     }
   };
 
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "",
+      });
+    };
+    gapi.load("client:auth2", initClient);
+  }, []);
+
+  const onSuccess = async (res) => {
+    const data = {
+      name: res?.profileObj?.name,
+      imageUrl: res?.profileObj?.imageUrl,
+      password: "123456",
+    };
+
+    try {
+      await dispatch(registerUser(data, navigate));
+      dispatch(
+        authenticationSuccess({
+          user: res?.profileObj,
+          token: res?.tokenId,
+        })
+      );
+      SaveTokenInLocalStorage(dispatch, {
+        token: res?.tokenId,
+        expiresIn: 2 * 60 * 60 * 100,
+        expirationtime: new Date(
+          Date.now() + res?.tokenObj?.expires_at
+        ).toISOString(),
+        user: res?.profileObj,
+      });
+    } catch {
+      toast.error("Authorization failed!");
+    }
+  };
+  const onFailure = (err) => {
+    toast.error("Failed to sign up with Google");
+  };
+
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
-        <Logo />
         <h3>Register</h3>
         {error && <Alert alertType="danger" alertText={error} />}
         {/* name input */}
 
-        <FormRow
-          type="text"
-          name="firstName"
-          labelText="First Name"
-          value={values.firstName}
-          handleChange={handleChange}
+        <p>For faster and secure login, register use your social account</p>
+
+        <GoogleLogin
+          clientId={clientId}
+          buttonText="Sign up with Google"
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+          cookiePolicy={"single_host_origin"}
+          isSignedIn={true}
+          className="google_btn rounded"
         />
+
+        <div className="flex justify-center py-2">OR</div>
+
         <FormRow
           type="text"
-          name="lastName"
-          labelText="Last Name"
-          value={values.lastName}
+          name="fullName"
+          labelText="Full Name"
+          value={values.fullName}
           handleChange={handleChange}
         />
 

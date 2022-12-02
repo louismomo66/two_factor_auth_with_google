@@ -4,6 +4,13 @@
   box-sizing: border-box;
 }
 
+/****************************
+  TAILWIND CSS
+  ****************************/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* fonts */
 @import url("https://fonts.googleapis.com/css2?family=Cabin&family=Roboto+Condensed:wght@400;700&display=swap");
 
@@ -18,7 +25,7 @@ html {
   --primary-200: #ac99cb;
   --primary-300: #8367b2;
   --primary-400: #593498;
-  --primary-500: #30017e;
+  --primary-500: #0066ff;
   --primary-600: #260165;
   --primary-700: #1d014c;
   --primary-800: #130032;
@@ -152,11 +159,30 @@ ul {
   border: transparent;
   border-radius: var(--borderRadius);
   letter-spacing: var(--letterSpacing);
-  padding: 0.375rem 0.75rem;
+  padding: 0.475rem 0.75rem;
   box-shadow: var(--shadow-2);
   transition: var(--transition);
   text-transform: capitalize;
   display: inline-block;
+}
+.google_btn {
+  cursor: pointer;
+  color: var(--white) !important;
+  background-color: var(--primary-500) !important;
+  border: transparent;
+  border-bottom-right-radius: 20px !important;
+  border-top-right-radius: 20px !important;
+  letter-spacing: var(--letterSpacing);
+  padding: 0.475rem 0.75rem;
+  box-shadow: var(--shadow-2);
+  transition: var(--transition);
+  text-transform: capitalize;
+  display: inline-block;
+  width: 100%;
+}
+
+.btn.rounded {
+  border-radius: 20px;
 }
 
 button[disabled="disabled"],
